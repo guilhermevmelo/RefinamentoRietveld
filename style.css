@@ -1,0 +1,214 @@
+
+@font-face {
+    font-family: 'CMU Serif';
+    src: url('webfont/cmunrm-webfont.eot');
+    src: url('webfont/cmunrm-webfont.eot?#iefix') format('embedded-opentype'),
+    url('webfont/cmunrm-webfont.woff2') format('woff2'),
+    url('webfont/cmunrm-webfont.woff') format('woff'),
+    url('webfont/cmunrm-webfont.ttf') format('truetype'),
+    url('webfont/cmunrm-webfont.svg#cmu_serifroman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'CMU Serif';
+    src: url('webfont/cmunti-webfont.eot');
+    src: url('webfont/cmunti-webfont.eot?#iefix') format('embedded-opentype'),
+    url('webfont/cmunti-webfont.woff2') format('woff2'),
+    url('webfont/cmunti-webfont.woff') format('woff'),
+    url('webfont/cmunti-webfont.ttf') format('truetype'),
+    url('webfont/cmunti-webfont.svg#cmu_serifitalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+
+}
+
+body {
+    font-family: 'CMU Serif', serif;
+    font-size: 16px;
+
+    background: url("images/noisy_grid.png") repeat;
+}
+
+h1 {
+    font-size: 2.2em;
+}
+
+h1 img {
+    padding: 0 15px;
+    height: 150px;
+    width: auto;
+}
+
+h2 {
+    font-size: 1.6em;
+    border-bottom: 1px solid cornflowerblue;
+}
+
+h3 {
+    font-size: 1.2em;
+    border-bottom: 1px solid cornflowerblue;
+}
+
+section {
+    width: 80%;
+    margin: 30px auto;
+    padding: 5px 35px;
+    clear: both;
+    border: 2px solid cornflowerblue;
+    background-color: aliceblue;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    padding-bottom: 15px;
+}
+
+address {
+    font-style: normal;
+}
+
+section#sectionCalculations,
+section#sectionTableHkl {
+    border: 2px solid orangered;
+    background-color: peachpuff;
+}
+
+
+section#sectionCalculations h2, section#sectionTableHkl h2,
+section#sectionCalculations h3, section#sectionTableHkl h3 {
+    border-color: orangered;
+}
+
+header {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 0;
+}
+
+header{
+    text-align: right;
+}
+
+header img {
+    float: left;
+}
+
+fieldset {
+    padding: 0;
+    margin: 5px 0;
+    border: none;
+}
+
+table#phaseDisplay {
+
+}
+
+table#phaseDisplay  th {
+    border-bottom: 1px solid cornflowerblue;
+    padding: 5px;
+    text-align: right;
+}
+
+table#phaseDisplay  td {
+    border-bottom: 1px solid cornflowerblue;
+    padding: 5px 15px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+input[type="number"] {
+    font-family: 'CMU Serif', serif;
+    width: 80px;
+    border: 1px solid cornflowerblue;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 3px;
+    text-align: right;
+    font-size: 1.1em;
+    width: 120px;
+}
+
+/*input[type="button"] {*/
+    /*font-family: 'CMU Sans Serif', sans-serif;*/
+    /*text-transform:  uppercase;*/
+    /*border: 1px solid cornflowerblue;*/
+    /*background-color: azure;*/
+    /*padding: 10px;*/
+/*}*/
+
+#sectionCalculations input[type="number"],
+section#sectionTableHkl input[type="number"] {
+    color: orangered;
+    border-color: orangered;
+    width: 200px;
+}
+
+#sectionTableHkl table th {
+    color: orangered;
+}
+
+#sectionTableHkl table td,
+#sectionTableHkl table th {
+    border: 1px solid orangered;
+    border-left: 0;
+    padding: 2px 10px;
+}
+
+#sectionTableHkl table td:first-child,
+#sectionTableHkl table th:first-child {
+    border-left: 1px solid orangered;
+}
+
+#sectionTableHkl table td {
+    border-top: 0;
+}
+
+.column {
+    float: left;
+    width: 20%;
+}
+
+.overline {
+    text-decoration: overline;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.red {
+    color: orangered;
+}
+
+.blue {
+    color: cornflowerblue;
+}
+
+strong {
+    color: orangered;
+}
+
+.profileShkl {
+    color: cornflowerblue;
+}
+

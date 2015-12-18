@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>VII Curso de Método Rietveld</title>
+
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+    <script src="jquery-2.1.3.js"></script>
+    <script src="main.js"></script>
+    <script src="retina.js"></script>
+</head>
+<body>
+
+<!--section id="sectionIntro">
+    <h1>Lorem Ipsum dolor</h1>
+    <p>Morbi massa diam, vehicula quis dui at, rhoncus fermentum sapien. Duis dictum hendrerit augue eget ornare. Integer suscipit luctus nibh ut dictum. Fusce dapibus libero et augue eleifend pretium. Praesent tempor fermentum tortor, ac fringilla magna vestibulum quis. Curabitur sit amet euismod orci. Donec congue elit eget quam eleifend facilisis. Suspendisse id sagittis nisl, non euismod massa.</p>
+    <p>Donec non turpis laoreet, commodo mauris non, euismod ex. Vivamus vel mollis elit, ac finibus nulla. Cras scelerisque urna scelerisque, pellentesque elit sed, consequat nibh. Mauris enim elit, ultricies eu tristique at, venenatis id lectus. Ut eu dolor vehicula, placerat justo in, aliquet orci. Proin vitae dignissim eros, vel tempor nunc. Ut eget libero urna. Ut rutrum nunc non commodo convallis. Donec lacinia dui eu velit posuere, a molestie augue auctor.</p>
+    <form name="formIntro" id="formIntro">
+        <fieldset>
+            <input type="button" name="btnChooseInputFile" id="btnChooseInputFile" value="Begin with a file">
+            <input type="button" name="btnChooseType" id="btnChooseType" value="Begin without a file">
+        </fieldset>
+    </form>
+</section-->
+
+<header>
+    <h1><img src="images/logo_lrx_pequena.png" alt="Laboratório de Raios-X"><img src="images/logo_ufc_vertical_pequena.png" alt="Universidade Federal do Ceará"> VII Curso de Método Rietveld</h1>
+    <p class="italic">Fortaleza, 6 &mdash; 10 de Julho de 2015<br>v1.0.3</p>
+    <div class="clear"></div>
+</header>
+
+<section id="sectionFileInput">
+    <h2>Arquivos de Entrada</h2>
+    <form name="formFileInput" id="formFileInput" enctype="multipart/form-data">
+        <fieldset>
+            <label for="inputFile">Selecione o arquivo do qual você deseja ler os dados do <strong>refinamento</strong>:</label>
+            <input type="file" name="inputFile" id="inputFile">
+        </fieldset>
+
+        <fieldset>
+            <label for="inputRFLFile">Selecione um arquivo .RFL referente à fase refinada:</label>
+            <input type="file" name="inputRFLFile" id="inputRFLFile" step="0.0001" disabled title="Você deve escolher uma fase e uma simetria de Laue antes.">
+        </fieldset>
+
+        <!--fieldset>
+            <input type="button" name="sbmtFormFileInput" id="sbmtFormFileInput" value="Input">
+        </fieldset-->
+    </form>
+</section>
+
+<section id="sectionPreConfig">
+    <h2>Configuração</h2>
+    <form name="formPreConfig" id="formPreConfig">
+        <fieldset>
+            <label for="phaseNumber">Selecione a fase</label>
+            <select name="phaseNumber" id="phaseNumber">
+                <!--option value="1">1</option>
+                <option value="2">2</option-->
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <label for="symmetry">Selecione a simetria de Laue para esta fase</label>
+            <select name="symmetry" id="symmetry">
+                <option value="1">Monoclínica</option>
+                <option value="2">Ortorrômbica</option>
+                <option value="3">Tetragonal (4/m)</option>
+                <option value="4">Tetragonal (4/mmm)</option>
+                <option value="5">Trigonal <span class="overline">3</span> - configuração romboédrica</option>
+                <option value="6">Trigonal 3m - configuração romboédrica</option>
+                <option value="7">Trigonal 3</option>
+                <option value="8">Trigonal 3ml</option>
+                <option value="9">Trigonal 3lm</option>
+                <option value="10">Hexagonal (6/m and 6/mmm)</option>
+                <option value="11" selected>Cúbica (3m and m3m)</option>
+                <option value="12">Triclínica</option>
+            </select>
+        </fieldset>
+
+        <div id="preConfigDisplay">
+            <table id="phaseDisplay" cellspacing="0">
+                <tr>
+                    <th>a:</th>
+                    <td id="lattice_a">0.000&angst;</td>
+                </tr>
+                <tr>
+                    <th>b:</th>
+                    <td id="lattice_b">0.000&angst;</td>
+                </tr>
+                <tr>
+                    <th>c:</th>
+                    <td id="lattice_c">0.000&angst;</td>
+                </tr>
+                <tr>
+                    <th>&alpha;:</th>
+                    <td id="lattice_alpha">0&deg;</td>
+                </tr>
+                <tr>
+                    <th>&beta;:</th>
+                    <td id="lattice_beta">0&deg;</td>
+                </tr>
+                <tr>
+                    <th>&gamma;:</th>
+                    <td id="lattice_gamma">0&deg;</td>
+                </tr>
+                <tr>
+                    <th>Volume:</th>
+                    <td id="lattice_vol">0&angst;<sup>2</sup></td>
+                </tr>
+            </table>
+        </div>
+        <fieldset class="clear">
+            <input type="button" name="sbmtFormPreConfig" id="sbmtFormPreConfig" value="Calcular tamanho do cristalito e microdeformação">
+        </fieldset>
+
+        <fieldset class="clear">
+            <input type="button" name="sbmtCalculateSshkl" id="sbmtCalculateSshkl" value="Calcular valores de S_s(hkl) para cada pico" disabled>
+        </fieldset>
+    </form>
+</section>
+
+<section id="sectionDataInput">
+    <form name="formDataInput" id="formDataInput">
+        <h3>Radiação utilizada</h3>
+        <fieldset>
+            <label for="lambda">&lambda;</label>
+            <input type="number" name="lambda" id="lambda" value="1.5405" step="0.0001" disabled> &angst;
+        </fieldset>
+
+        <h3>Informações de perfil do <span class="blue">padrão</span></h3>
+        <fieldset>
+            <label for="patternName">Nome do padrão</label>
+            <!--input type="text" name="patternName" id="patternName"-->
+            <select id="patternName">
+                <option value="Y2O3" selected>Y2O3</option>
+                <option value="LaB6">LaB6</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="patternGu">G<sub>u</sub> </label>
+            <input type="number" name="patternGu" id="patternGu" step="0.0001" disabled>
+        </fieldset>
+        <fieldset>
+            <label for="patternGv">G<sub>v</sub></label>
+            <input type="number" name="patternGv" id="patternGv" step="0.0001" disabled>
+        </fieldset>
+        <fieldset>
+            <label for="patternGw">G<sub>w</sub></label>
+            <input type="number" name="patternGw" id="patternGw" step="0.0001" disabled>
+        </fieldset>
+        <fieldset>
+            <label for="patternGp">G<sub>p</sub></label>
+            <input type="number" name="patternGp" id="patternGp" step="0.0001" disabled>
+        </fieldset>
+        <fieldset>
+            <label for="patternLx">L<sub>x</sub></label>
+            <input type="number" name="patternLx" id="patternLx" step="0.0001" disabled>
+        </fieldset>
+        <fieldset>
+            <label for="patternPtec"><sub>PTEC</sub></label>
+            <input type="number" name="patternPtec" id="patternPtec" step="0.0001" disabled>
+        </fieldset>
+
+        <h3>Informações de perfil da <span class="red">amostra</span></h3>
+        <div class="column">
+            <fieldset>
+                <label for="sampleGu">G<sub>u</sub> </label>
+                <input type="number" name="sampleGu" id="sampleGu" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="sampleGv">G<sub>v</sub></label>
+                <input type="number" name="sampleGv" id="sampleGv" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="sampleGw">G<sub>w</sub></label>
+                <input type="number" name="sampleGw" id="sampleGw" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="sampleGp">G<sub>p</sub></label>
+                <input type="number" name="sampleGp" id="sampleGp" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="sampleLx">L<sub>x</sub></label>
+                <input type="number" name="sampleLx" id="sampleLx" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="samplePtec">PTEC</label>
+                <input type="number" name="samplePtec" id="samplePtec" step="0.0001" disabled>
+            </fieldset>
+        </div>
+        <div class="column">
+            <fieldset>
+                <label for="s400">S400</label>
+                <input type="number" name="s400" id="s400" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s040">S040</label>
+                <input type="number" name="s040" id="s040" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s004">S004</label>
+                <input type="number" name="s004" id="s004" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+        </div>
+        <div class="column">
+            <fieldset>
+                <label for="s220">S220</label>
+                <input type="number" name="s220" id="s220" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s202">S202</label>
+                <input type="number" name="s202" id="s202" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s022">S022</label>
+                <input type="number" name="s022" id="s022" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+        </div>
+        <div class="column">
+            <fieldset>
+                <label for="s310">S310</label>
+                <input type="number" name="s310" id="s310" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s103">S103</label>
+                <input type="number" name="s103" id="s103" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s031">S031</label>
+                <input type="number" name="s031" id="s031" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s130">S130</label>
+                <input type="number" name="s130" id="s130" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s301">S301</label>
+                <input type="number" name="s301" id="s301" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s013">S013</label>
+                <input type="number" name="s013" id="s013" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+        </div>
+        <div class="column">
+            <fieldset>
+                <label for="s211">S211</label>
+                <input type="number" name="s211" id="s211" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s121">S121</label>
+                <input type="number" name="s121" id="s121" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+            <fieldset>
+                <label for="s112">S112</label>
+                <input type="number" name="s112" id="s112" class="profileShkl" step="0.0001" disabled>
+            </fieldset>
+        </div>
+
+    </form>
+    <div class="clear"></div>
+</section>
+
+<section id="sectionCalculations">
+    <h2>Resultados</h2>
+
+    <form name="formCalc" id="formCalc">
+        <h3>Tamanho do Cristalito</h3>
+        <fieldset>
+            <label for="lorentzPerp">Lorentz<sub>&perp;</sub></label>
+            <input type="number" id="lorentzPerp" step="0.0001" disabled> &angst;
+        </fieldset>
+        <fieldset>
+            <label for="lorentzPara" >Lorentz<sub style="font-family: 'Cambria Math';">&parallel;</sub></label>
+            <input type="number" id="lorentzPara" step="0.0001" disabled> &angst;
+        </fieldset>
+
+        <fieldset>
+            <label for="gauss">Gauss</label>
+            <input type="number" id="gauss" step="0.0001" disabled> &angst;
+        </fieldset>
+
+        <h3>Microdeformação</h3>
+        <fieldset>
+            <label for="gaussMicrostrain">Gauss</label>
+            <input type="number" id="gaussMicrostrain" step="0.0001" disabled>
+        </fieldset>
+    </form>
+
+</section>
+
+<section id="sectionTableHkl">
+    <h2>Valores dos picos</h2>
+    <table id="peakValuesTable" cellspacing="0">
+        <tr>
+            <th>nº</th>
+            <th>h</th>
+            <th>k</th>
+            <th>l</th>
+            <th>2&theta;</th>
+
+            <th>S<sub>S</sub>(hkl)</th>
+        </tr>
+    </table>
+</section>
+
+<footer>
+    <address>&copy; 2015 LRX</address>
+</footer>
+
+
+</body>
+</html>
